@@ -1,0 +1,7 @@
+{
+  "name": "TeamFlow - Task Management",
+  "description": "A task management tool similar to Monday.com, allowing admins to assign tasks and members to track and complete them. Features include a messaging system, file uploads, and a dynamic statistics dashboard with AI-powered summaries.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
