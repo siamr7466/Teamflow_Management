@@ -1,27 +1,26 @@
-import path from 'path';
-import { defineConfig, loadEnv } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '');
+export default defineConfig({
+  plugins: [react()],
 
-  return {
-    base: './', // ✅ crucial for Vercel
-    server: {
-      port: 3000,
-      host: '0.0.0.0',
-    },
-    plugins: [react()],
-    define: {
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-    },
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, '.'),
+  // ✅ Fix black screen on Vercel by using relative paths
+  base: "./",
+
+  build: {
+    // ⚠️ Increase warning limit for large bundles
+    chunkSizeWarningLimit: 1000, // default 500 kB
+
+    rollupOptions: {
+      output: {
+        // Optional: manual chunking to split vendor code
+        manualChunks: {
+          reactVendor: ['react', 'react-dom'],
+        },
       },
     },
-    build: {
-      outDir: 'dist',
-    },
-  };
+  },
+
+  // Optional: clear cache when building on Vercel
+  clearScreen: true,
 });
